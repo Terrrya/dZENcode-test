@@ -1,9 +1,9 @@
-from rest_framework.routers import SimpleRouter
+from rest_framework.routers import DefaultRouter
 
 from commentary.views import CommentaryViewSet
 
 
-router = SimpleRouter()
+router = DefaultRouter()
 router.register("", CommentaryViewSet)
 
 app_name = "user"
