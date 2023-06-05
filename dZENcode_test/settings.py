@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -153,4 +154,18 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     )
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(
+        minutes=int(os.environ["ACCESS_TOKEN_LIFETIME"])
+    )
+    if "ACCESS_TOKEN_LIFETIME" in os.environ.keys()
+    else timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(
+        minutes=int(os.environ["REFRESH_TOKEN_LIFETIME"])
+    )
+    if "REFRESH_TOKEN_LIFETIME" in os.environ.keys()
+    else timedelta(hours=24),
+    "ROTATE_REFRESH_TOKENS": True,
 }
