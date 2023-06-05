@@ -8,6 +8,10 @@ class Commentary(models.Model):
         get_user_model(), on_delete=models.CASCADE, related_name="commentaries"
     )
     parent_commentary = models.ForeignKey(
-        "self", on_delete=models.CASCADE, related_name="child_commentaries"
+        "self",
+        on_delete=models.CASCADE,
+        related_name="child_commentaries",
+        blank=True,
+        null=True,
     )
     body = models.TextField()
