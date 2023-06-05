@@ -8,6 +8,7 @@ class CommentarySerializer(serializers.ModelSerializer):
         model = Commentary
         fields = (
             "id",
+            "created_at",
             "user",
             "parent_commentary",
             "body",
