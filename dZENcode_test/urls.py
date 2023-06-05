@@ -22,4 +22,5 @@ urlpatterns = [
     path(
         "api/commentary/", include("commentary.urls", namespace="commentary")
     ),
+    path("api/user/", include("user.urls", namespace="user")),
 ]
