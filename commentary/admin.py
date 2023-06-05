@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from commentary.models import Commentary
+
+admin.site.register(Commentary)

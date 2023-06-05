@@ -15,3 +15,6 @@ class Commentary(models.Model):
         null=True,
     )
     body = models.TextField()
+
+    class Meta:
+        verbose_name_plural = "Commentaries"
