@@ -1,3 +1,20 @@
-from django.shortcuts import render
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
-# Create your views here.
+from user.serializers import UserSerializer
+
+
+class CreateUserView(generics.CreateAPIView):
+    """Create new user"""
+
+    serializer_class = UserSerializer
+
+
+class ManageUserView(generics.RetrieveUpdateAPIView):
+    """Update user which already login"""
+
+    serializer_class = UserSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self):
+        return self.request.user
