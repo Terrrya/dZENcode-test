@@ -2,7 +2,7 @@ from typing import Type
 
 from django.core.cache import cache
 from django.db.models import QuerySet
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from rest_framework.serializers import ModelSerializer
 
 from commentary.models import Commentary
@@ -14,7 +14,11 @@ from commentary.serializers import (
 )
 
 
-class CommentaryViewSet(viewsets.ModelViewSet):
+class CommentaryViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    viewsets.GenericViewSet,
+):
     queryset = Commentary.objects.all()
     permission_classes = (IsAuthenticatedOrIfNonAuthenticatedReadOnly,)
 
@@ -32,7 +36,9 @@ class CommentaryViewSet(viewsets.ModelViewSet):
     def get_queryset(self) -> QuerySet:
         ordering = self.request.query_params.get("ordering")
 
-        queryset = self.queryset.filter(parent_commentary=None)
+        queryset = self.queryset.filter(
+            parent_commentary=None
+        ).prefetch_related("child_commentaries")
 
         if ordering in ("username", "email"):
             queryset = queryset.order_by(f"user__{ordering}")
