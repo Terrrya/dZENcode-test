@@ -13,6 +13,17 @@ class CommentarySerializer(serializers.ModelSerializer):
         fields = ("id", "created_at", "user", "parent_commentary", "body")
 
 
+class ListCommentarySerializer(CommentarySerializer):
+    class Meta:
+        model = Commentary
+        fields = ("id", "created_at", "user", "child_commentaries", "body")
+
+    def get_fields(self):
+        fields = super(ListCommentarySerializer, self).get_fields()
+        fields["child_commentaries"] = ListCommentarySerializer(many=True)
+        return fields
+
+
 class CreateCommentarySerializer(CommentarySerializer):
     created_at = serializers.DateTimeField(read_only=True)
     user = serializers.SlugRelatedField(
