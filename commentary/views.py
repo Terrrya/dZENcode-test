@@ -1,5 +1,6 @@
 from typing import Type
 
+from django.core.cache import cache
 from django.db.models import QuerySet
 from rest_framework import viewsets
 from rest_framework.serializers import ModelSerializer
@@ -25,6 +26,7 @@ class CommentaryViewSet(viewsets.ModelViewSet):
         return CommentarySerializer
 
     def perform_create(self, serializer: CreateCommentarySerializer) -> None:
+        cache.clear()
         serializer.save(user=self.request.user)
 
     def get_queryset(self) -> QuerySet:
