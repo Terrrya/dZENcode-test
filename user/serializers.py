@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
-from rest_framework import serializers
 from django.core.exceptions import ValidationError
+from rest_framework import serializers
 
 from user.models import User
 
@@ -24,11 +24,11 @@ class UserSerializer(serializers.ModelSerializer):
         )
         extra_kwargs = {"password": {"write_only": True, "min_length": 8}}
 
-    def create(self, validated_data):
+    def create(self, validated_data) -> User:
         """Create a new user with encrypted password and return it"""
         return get_user_model().objects.create_user(**validated_data)
 
-    def update(self, instance, validated_data):
+    def update(self, instance, validated_data) -> User:
         """Update a user, set the password correctly and return it"""
         password = validated_data.pop("password", None)
         user = super().update(instance, validated_data)
@@ -39,7 +39,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         return user
 
-    def validate(self, data):
+    def validate(self, data: dict) -> dict:
         """
         Validate data with validating password using AUTH_PASSWORD_VALIDATORS
         """
