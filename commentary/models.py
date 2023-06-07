@@ -62,7 +62,7 @@ class Commentary(models.Model):
                     if image.width > 320 or image.height > 240:
                         image.thumbnail((320, 240))
                         image.save(self.uploads.path)
-            
+
             if file_ext == ".txt" and self.uploads.size > 100 * 1024:
                 raise ValidationError(
                     {"uploads": "size of text file should be lower than 100KB"}
