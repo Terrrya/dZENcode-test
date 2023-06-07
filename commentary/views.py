@@ -2,6 +2,8 @@ from typing import Type
 
 from django.core.cache import cache
 from django.db.models import QuerySet
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import viewsets, mixins
 from rest_framework.serializers import ModelSerializer
 
@@ -50,3 +52,19 @@ class CommentaryViewSet(
             queryset = queryset.order_by(ordering)
 
         return queryset
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "ordering",
+                type=OpenApiTypes.STR,
+                description="Add ordering to commentaries. "
+                "(ex. ?ordering=username). "
+                "Can use username, email, created_at for ascending "
+                "ordering or -username, -email for descending ordering. "
+                "By default ordering is -created_at",
+            ),
+        ]
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
