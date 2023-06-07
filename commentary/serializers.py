@@ -10,13 +10,27 @@ from commentary.models import Commentary
 class CommentarySerializer(serializers.ModelSerializer):
     class Meta:
         model = Commentary
-        fields = ("id", "created_at", "user", "parent_commentary", "body")
+        fields = (
+            "id",
+            "created_at",
+            "user",
+            "parent_commentary",
+            "body",
+            "uploads",
+        )
 
 
 class ListCommentarySerializer(CommentarySerializer):
     class Meta:
         model = Commentary
-        fields = ("id", "created_at", "user", "child_commentaries", "body")
+        fields = (
+            "id",
+            "created_at",
+            "user",
+            "child_commentaries",
+            "body",
+            "uploads",
+        )
 
     def get_fields(self):
         fields = super(ListCommentarySerializer, self).get_fields()
